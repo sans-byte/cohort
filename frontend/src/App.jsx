@@ -19,6 +19,8 @@ function TodoList() {
   const descriptionRef = useRef();
   const filterRef = useRef();
 
+  console.log(todos);
+
   const handleFilter = () => {
     const filteredTodos = todos.filter(
       (todo) =>
@@ -36,8 +38,8 @@ function TodoList() {
       ...todos,
       {
         key,
-        title: [todoRef.current.value],
-        description: [descriptionRef.current.value],
+        title: todoRef.current.value,
+        description: descriptionRef.current.value,
       },
     ]);
   };
