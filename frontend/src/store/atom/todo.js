@@ -11,10 +11,21 @@ export const todoAtom = atom({
   ],
 });
 
+export const todoFilterSelectorAtom = atom({
+  key: "todoFilterSelectorAtom",
+  default: "",
+});
+
 export const todoSelector = selector({
   key: "todoSelector",
   get: (props) => {
-    const todo = props.get(todoAtom);
-    return [];
+    const todos = props.get(todoAtom);
+    const filter = props.get(todoFilterSelectorAtom);
+    const filteredTodos = todos.filter(
+      (todo) =>
+        todo.title.match(new RegExp(filter, "i")) ||
+        todo.description.match(new RegExp(filter, "i"))
+    );
+    return filteredTodos;
   },
 });
