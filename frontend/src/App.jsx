@@ -1,6 +1,15 @@
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
+import {
+  RecoilRoot,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import "./App.css";
-import { todoAtom, todoSelector } from "./store/atom/todo";
+import {
+  todoAtom,
+  todoFilterSelectorAtom,
+  todoSelector,
+} from "./store/atom/todo";
 import React, { useRef } from "react";
 
 function App() {
@@ -15,21 +24,15 @@ function App() {
 
 function TodoList() {
   const [todos, setTodos] = useRecoilState(todoAtom);
+  const setFilter = useSetRecoilState(todoFilterSelectorAtom);
   const todoRef = useRef();
   const descriptionRef = useRef();
   const filterRef = useRef();
-
-  console.log(todos);
+  const filterTodos = useRecoilValue(todoSelector);
 
   const handleFilter = () => {
-    const filteredTodos = todos.filter(
-      (todo) =>
-        todo.title.match(new RegExp(filterRef.current.value, "i")) ||
-        todo.description.match(new RegExp(filterRef.current.value, "i"))
-    );
-    console.log(filterRef.current.value);
-    console.log(filteredTodos);
-    setTodos(filteredTodos);
+    setFilter(filterRef.current.value);
+    setTodos(filterTodos);
   };
 
   const handleSubmit = () => {
